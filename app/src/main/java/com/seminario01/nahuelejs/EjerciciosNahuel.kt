@@ -436,7 +436,6 @@ fun ej22(numero: Int): Boolean {
         esPerfecto = true
     }
     println(esPerfecto)
-
     return esPerfecto
 }
 
@@ -454,9 +453,12 @@ fun ej24(matrizBi: Array<Array<Int>>): Int {
     var max = matrizBi[0][0]
     for (fila in matrizBi) {
         for (elemento in fila) {
-            max = elemento
+            if (elemento > max) {
+                max = elemento
+            }
         }
     }
+    println("El máximo es: "+max)
     return max
 }
 
@@ -474,7 +476,7 @@ fun ej25(matriz: Array<Array<Int>>): Int {
         }
     }
     /*
-    for (i in matriz.indices) {
+    for (i in matriz.indices) { //Se puede hacer con índices que es más idiomático
             for (j in matriz[i].indices) {
                 if (min > matriz[i][j]) {
                     min = matriz[i][j]
@@ -482,6 +484,7 @@ fun ej25(matriz: Array<Array<Int>>): Int {
             }
         }
      */
+    println("El mínomo es $min")
 
     return min
 }
@@ -497,6 +500,7 @@ fun ej26(listaPalabras: Array<String>): String {
             res = palabra
         }
     }
+    println("La palabra más larga es $res")
     return res
 }
 
@@ -512,6 +516,7 @@ fun ej27(lista: Array<String>): String {
             contador = lista[i].length
         }
     }
+    println("La palabra más corta es: $aux")
     return aux
 }
 
@@ -528,6 +533,11 @@ fun ej28(cadenaTexto: String): Boolean {
         }
     }
 
+    if(esCorrecto){
+        println("Contiene solo caracteres alfabéticos y espacios en blanco")
+    }else{
+        println("Contiene otro tipo de caracteres")
+    }
     return esCorrecto
 }
 
@@ -541,9 +551,14 @@ fun ej29(cadena1: String, cadena2: String): Boolean {
     if (cadena1.length == cadena2.length) {
         if (cadena1.toLowerCase().toCharArray().sorted() == cadena2.toLowerCase().toCharArray()
                 .sorted()
-        ) esAnagrama = true
+        ){
+            esAnagrama = true
+            println("$cadena1 y $cadena2 son anagramas")
+        }
     }
-    return esAnagrama
+    if (!esAnagrama) println("$cadena1 y $cadena2 NO son anagramas")
+
+        return esAnagrama
 }
 
 
@@ -552,19 +567,16 @@ fun ej30(num: Int): Boolean {
     número triangular (puede representarse como un triángulo equilátero de puntos), o
     False en caso contrario*/
     var esTriangular = false
-
-    if (num < 0) return false // Los números negativos no son triangulares
-
     var n = 0
     var triangular = 0
 
+    if (num < 0) return false
+
     while (triangular < num) {
         n++
-        triangular = (n * (n + 1)) / 2 // Calculamos el número triangular
+        triangular = (n * (n + 1)) / 2
         if (triangular == num) esTriangular = true
     }
-
-    // Si triangular es igual al número, es un número triangular
     return esTriangular
 }
 
@@ -618,10 +630,9 @@ fun ej35(lista: IntArray, orden: String): IntArray {
         - "Asc" o "Desc" para indicar si debe ordenarse de menor a mayor o de mayor a menor
         - No se pueden utilizar funciones propias del lenguaje que lo resuelvan automáticamente.*/
 
-    val listaNueva = lista.clone() // Clonamos el array original
+    val listaNueva = lista.clone()
     val n = listaNueva.size
 
-    // Método de Burbuja
     if (orden.lowercase().equals("asc")) {
         for (i in 0 until n) {
             for (j in 0 until n - 1 - i) {
