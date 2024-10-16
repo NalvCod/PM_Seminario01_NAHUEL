@@ -88,9 +88,12 @@ fun main() {
     ej31(listaNums)
 
     println("\nEj32 ");
-    val clave = listOf("Uno", "Dos", "Tres", "Cuatro")
-    val valor = listOf(1, 2, 3, 4)
+    val clave = listOf(1, 2, 3, 4)
+    val valor = listOf("Uno", "Dos", "Tres", "Cuatro")
     ej32(clave, valor)
+
+    println("\nEj34 ");
+    ej34("apple")
 
     println("\nEj33 ");
     ej33(5)
@@ -475,8 +478,8 @@ fun ej25(matriz: Array<Array<Int>>): Int {
             }
         }
     }
-    /*
-    for (i in matriz.indices) { //Se puede hacer con índices que es más idiomático
+    /*CON INDICES
+    for (i in matriz.indices) {
             for (j in matriz[i].indices) {
                 if (min > matriz[i][j]) {
                     min = matriz[i][j]
@@ -484,7 +487,7 @@ fun ej25(matriz: Array<Array<Int>>): Int {
             }
         }
      */
-    println("El mínomo es $min")
+    println("El mínimo es $min")
 
     return min
 }
@@ -567,15 +570,15 @@ fun ej30(num: Int): Boolean {
     número triangular (puede representarse como un triángulo equilátero de puntos), o
     False en caso contrario*/
     var esTriangular = false
-    var n = 0
+    var n = 2
     var triangular = 0
 
     if (num < 0) return false
 
     while (triangular < num) {
-        n++
         triangular = (n * (n + 1)) / 2
         if (triangular == num) esTriangular = true
+        n++
     }
     return esTriangular
 }
@@ -590,18 +593,16 @@ fun ej31(nums: List<Int>): List<Int> {
     return listaDup
 }
 
-fun ej32(clave: List<String>, valor: List<Int>): Map<String, Int> {
+fun ej32(clave: List<Int>, valor: List<String>): Map<Int, String> {
     /*Ejercicio 32: Crear un Diccionario a partir de Listas
     Escribe una función que tome dos listas, una lista de claves y otra lista de valores, y
     cree un diccionario utilizando mapOf para combinar las listas en un diccionario
     clave-valor. La función debe devolver el diccionario resultante.*/
-    var diccionario: MutableMap<String, Int> = mutableMapOf()
+    var diccionario: MutableMap<Int, String> = mutableMapOf()
 
     for (i in clave.indices) {
-        diccionario[clave[i]] = valor[i]
+        diccionario.put(clave[i],valor[i])
     }
-
-
     return diccionario
 }
 
@@ -624,6 +625,35 @@ fun ej33(num: Int): IntArray {
     return binarioFinal
 }
 
+fun ej34(texto:String):String{
+    /*Ejercicio 34: Crea una función que sea capaz de encriptar y desencriptar texto
+    utilizando el algoritmo de encriptación de Karaca (debes buscar información sobre él).
+     */
+    var textoSeparado = texto.reversed().split(' ')
+    val vocales: Map<Char, Int> = mapOf( Pair('a', 0), Pair('e', 1), Pair('i', 2), Pair('o', 3), Pair('u', 4))
+    var aux = ""
+
+    for (palabra in textoSeparado){
+        for(letra in palabra){
+            if (vocales.containsKey(letra)){
+                for (vocal in vocales){
+                    if(letra == vocal.key){
+                        aux += vocal.value
+                        break
+                    }
+                }
+            }else{
+                aux += letra
+            }
+        }
+        aux +="aca "
+    }
+    println(aux)
+
+    return aux
+}
+
+
 fun ej35(lista: IntArray, orden: String): IntArray {
     /*Ejercicio 35: Crea una función que ordene y retorne una matriz de números.
          - La función recibirá un listado (por ejemplo [2, 4, 6, 8, 9]) y un parámetro adicional
@@ -633,12 +663,12 @@ fun ej35(lista: IntArray, orden: String): IntArray {
     val listaNueva = lista.clone()
     val n = listaNueva.size
 
-    if (orden.lowercase().equals("asc")) {
+    if (orden.lowercase().equals("asc")) { //CORREGIRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
         for (i in 0 until n) {
             for (j in 0 until n - 1 - i) {
-                if (listaNueva[j] > listaNueva[j + 1]) {
+                if (listaNueva[j] > listaNueva[i + 1]) {
                     val aux = listaNueva[j]
-                    listaNueva[j] = listaNueva[j + 1]
+                    listaNueva[j] = listaNueva[i + 1]
                     listaNueva[j + 1] = aux
                 }
             }
