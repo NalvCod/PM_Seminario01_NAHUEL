@@ -1,4 +1,5 @@
 package com.seminario01.nahuelejs
+import kotlin.math.pow
 
 fun main() {
     var listanums = intArrayOf(2, 3, 10, 5, 6)
@@ -40,6 +41,7 @@ fun main() {
 
     println("\nEj 16: ")
     ej16(intArrayOf(2, 5, 6, 10))
+    println()
 
     println("\nEj 17: ")
     ej17(intArrayOf(2, 5, 6, 10))
@@ -50,11 +52,16 @@ fun main() {
     println("\nEj20 ");
     ej20(3)
 
-    println("\nEj21 ");
+    println("\nEj21 ")
     ej21("hola")
 
-    println("\nEj22 ");
+    println("\nEj22 ")
     ej22(6)
+
+    println("\nEj23")
+    var esArmstrong = ej23(153)
+    print(esArmstrong)
+    println()
 
     println("\nEj24 ");
     val matriz: Array<Array<Int>> = arrayOf(
@@ -92,14 +99,22 @@ fun main() {
     val valor = listOf("Uno", "Dos", "Tres", "Cuatro")
     ej32(clave, valor)
 
+    println("\nEj33 ");
+    ej33(5)
+    println()
+
     println("\nEj34 ");
     ej34("apple")
 
-    println("\nEj33 ");
-    ej33(5)
-
     println("\nEj35 ");
-    ej35(listanums, "asc")
+    val lista = intArrayOf(2, 4, 7, 8, 9, 0)
+    val listaAscendente = ej35(lista, "asc")
+    val listaDescendente = ej35(lista, "desc")
+
+    println("Lista ascendente:")
+    for (num in listaAscendente) print("$num ")
+    println("\nLista descendente:")
+    for (num in listaDescendente) print("$num ")
 }
 
 fun ej1(lista: IntArray): Int {
@@ -156,7 +171,6 @@ fun ej6(cadenaTexto: String, subcadena: String) {
     var contador = 0
 
     for (i in 0 until cadenaTexto.length) {
-        println("aaaa " + cadenaTexto[i])
         if (cadenaTexto[i] == (subcadena[0])) {
             for (j in 1 until subcadena.length) {
                 if (subcadena[j] == cadenaTexto[j]) {
@@ -443,11 +457,24 @@ fun ej22(numero: Int): Boolean {
 }
 
 
-fun ej23() {
+fun ej23(num:Int):Boolean {
     /*Ejercicio 23: Crea una función que, dado un número entero, devuelva True si es un número Armstrong (un
  número que es igual a la suma de sus propios dígitos elevados a una potencia). Por ejemplo, 153 es un
  número Armstrong porque 1^3 + 5^3 + 3^3 = 153.*/
+
+    val strNum = num.toString()
+    val numberOfDigits = strNum.length
+    var sum = 0
+
+    for (char in strNum) {
+        val digit = char.toString().toInt()
+        sum += digit.toDouble().pow(numberOfDigits).toInt()
+    }
+    if (sum == num) return true
+    else return false
 }
+
+
 
 
 fun ej24(matrizBi: Array<Array<Int>>): Int {
@@ -580,6 +607,7 @@ fun ej30(num: Int): Boolean {
         if (triangular == num) esTriangular = true
         n++
     }
+    println(esTriangular)//Manu sé que esto que hago es redundante pero es para tener todo el código aquí
     return esTriangular
 }
 
@@ -590,6 +618,8 @@ fun ej31(nums: List<Int>): List<Int> {
         val numeroDuplicado = numero * 2
         listaDup.add(numeroDuplicado)
     }
+    println(listaDup)
+
     return listaDup
 }
 
@@ -597,12 +627,15 @@ fun ej32(clave: List<Int>, valor: List<String>): Map<Int, String> {
     /*Ejercicio 32: Crear un Diccionario a partir de Listas
     Escribe una función que tome dos listas, una lista de claves y otra lista de valores, y
     cree un diccionario utilizando mapOf para combinar las listas en un diccionario
-    clave-valor. La función debe devolver el diccionario resultante.*/
+    clave-valor. La función debe devolver el diccionario resultante.
+
+    Sinceramente no sé ni si pide esto, no lo entiendo mucho, creo que es así???*/
     var diccionario: MutableMap<Int, String> = mutableMapOf()
 
     for (i in clave.indices) {
         diccionario.put(clave[i],valor[i])
     }
+    println(diccionario)
     return diccionario
 }
 
@@ -618,9 +651,11 @@ fun ej33(num: Int): IntArray {
         aux = aux / 2
         cont++
     }
+    print("El numero $num en binario es: ")
     var binarioFinal = IntArray(cont)
     for (i in 0 until cont) {
-        binarioFinal[i] = digitosBin[cont - 1 - i]
+        binarioFinal[i] =  digitosBin[cont - 1 - i]
+        print(binarioFinal[i])
     }
     return binarioFinal
 }
@@ -629,51 +664,55 @@ fun ej34(texto:String):String{
     /*Ejercicio 34: Crea una función que sea capaz de encriptar y desencriptar texto
     utilizando el algoritmo de encriptación de Karaca (debes buscar información sobre él).
      */
-    var textoSeparado = texto.reversed().split(' ')
-    val vocales: Map<Char, Int> = mapOf( Pair('a', 0), Pair('e', 1), Pair('i', 2), Pair('o', 3), Pair('u', 4))
-    var aux = ""
+        var textoSeparado = texto.reversed().split(' ')
+        val vocales: Map<Char, Int> = mapOf(Pair('a', 0), Pair('e', 1), Pair('i', 2), Pair('o', 3), Pair('u', 4))
+        var encriptado = ""
 
-    for (palabra in textoSeparado){
-        for(letra in palabra){
-            if (vocales.containsKey(letra)){
-                for (vocal in vocales){
-                    if(letra == vocal.key){
-                        aux += vocal.value
-                        break
+        for (palabra in textoSeparado){
+            for(letra in palabra){
+                if (vocales.containsKey(letra)){
+                    for (vocal in vocales){
+                        if(letra == vocal.key){
+                            encriptado += vocal.value
+                            break
+                        }
+
                     }
+                }else{
+                    encriptado += letra
                 }
-            }else{
-                aux += letra
             }
+            encriptado +="aca "
         }
-        aux +="aca "
-    }
-    println(aux)
 
-    return aux
+
+    println("El texto encriptado es: $encriptado")
+
+    return encriptado
 }
 
 
 fun ej35(lista: IntArray, orden: String): IntArray {
-    /*Ejercicio 35: Crea una función que ordene y retorne una matriz de números.
-         - La función recibirá un listado (por ejemplo [2, 4, 6, 8, 9]) y un parámetro adicional
-        - "Asc" o "Desc" para indicar si debe ordenarse de menor a mayor o de mayor a menor
-        - No se pueden utilizar funciones propias del lenguaje que lo resuelvan automáticamente.*/
+    /* Ejercicio 35: Crea una función que ordene y retorne una matriz de números.
+       La función recibirá un listado (por ejemplo [2, 4, 6, 8, 9]) y un parámetro adicional
+       "Asc" o "Desc" para indicar si debe ordenarse de menor a mayor o de mayor a menor.
+       No se pueden utilizar funciones propias del lenguaje que lo resuelvan automáticamente.
+       */
 
     val listaNueva = lista.clone()
     val n = listaNueva.size
 
-    if (orden.lowercase().equals("asc")) { //CORREGIRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+    if (orden.toLowerCase() == "asc") {
         for (i in 0 until n) {
             for (j in 0 until n - 1 - i) {
-                if (listaNueva[j] > listaNueva[i + 1]) {
+                if (listaNueva[j] > listaNueva[j + 1]) {
                     val aux = listaNueva[j]
-                    listaNueva[j] = listaNueva[i + 1]
+                    listaNueva[j] = listaNueva[j + 1]
                     listaNueva[j + 1] = aux
                 }
             }
         }
-    } else if (orden.lowercase().equals("desc")) {
+    } else if (orden.toLowerCase() == "desc") {
         for (i in 0 until n) {
             for (j in 0 until n - 1 - i) {
                 if (listaNueva[j] < listaNueva[j + 1]) {
@@ -684,7 +723,5 @@ fun ej35(lista: IntArray, orden: String): IntArray {
             }
         }
     }
-
     return listaNueva
 }
-
